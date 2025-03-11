@@ -1,0 +1,48 @@
+#define TRIG 13 //TRIG 핀
+#define ECHO 12 //ECHO 핀
+
+
+// C++ code
+//int led_r=7// //set up 안에 쓰면 지역함수이으로 전역함수 사용을 위해 set up밖에
+void setup()//set up:한 번 호출 
+{
+  Serial.begin(9600);//11250?0?을 주로 많이 씀. 속도가 높을수록 빠르고 낮을수록 안정됨.
+  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(7, OUTPUT);
+  pinMode(9, OUTPUT);
+  pinMode(TRIG,OUTPUT);   
+  pinMode(ECHO,INPUT);
+}
+
+void loop()//loop:무한 반복
+{
+  long duration,distance;// long 4바이트짜리 변수형 선언 
+  //Serial.println("11111");//ln:개행
+  digitalWrite(TRIG,LOW);//low 끄고 시작.
+  delayMicroseconds(2);//delay (2)micro:0.002
+  digitalWrite(TRIG,HIGH);//초음파 발사 시작
+  delayMicroseconds(10);//대기; 다시 돌아오는 시간임.돌아오는 데 가장 정확한 시간.
+  digitalWrite(TRIG,LOW);
+  
+  duration = pulseIn (ECHO,HIGH);// high에서 low로 변하는 시간을 pulsein이 가져와서 계산해주는 것
+  								//TRIG의 시간을 ECHO가 계산을 해주는 것.ECHO가 high를 유지한 시간을 측정해서 duration으로 가지고 온 것.
+  
+  distance = duration * 17/ 1000;//micro단위로 사용하기 때문에 /1000을 한 것.
+  Serial.println(duration);
+  Serial.print("\nDistance:");
+  Serial.print(distance);
+  Serial.println("Cm");
+  
+  
+  digitalWrite(LED_BUILTIN, HIGH);//high신호는 보통 low는 0
+  digitalWrite(7, HIGH);//정수로 들어가는 건 변수로 사용 가능=digitalWrite(led_r, HIGH);
+  digitalWrite(9, LOW);
+  delay(1000); // Wait for 1000 millisecond(s)
+  digitalWrite(LED_BUILTIN, LOW);
+  digitalWrite(7, LOW);
+  digitalWrite(9, HIGH);
+
+  delay(1000); // Wait for 1000 millisecond(s)
+}
+//아두이노에서 신호를 보낼 떈 output 그 반대엔 input.
+//anaolog는 받기만 가능 analogwrite없음.

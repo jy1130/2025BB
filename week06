@@ -1,0 +1,60 @@
+ls 모든 리스트 , 파일명 앞에 . 붙으면 숨겨짐 보통 환경변수가 숨겨져 있음
+ls -al 치면 다 나옴
+mkdir =make diretory
+:w
+:q
+:wq
+command상태는 esc
+gcc -o 실행파일 이름 ->컴파일
+
+=====================================
+
+BlinkAppC.nc
+-----------------------------
+
+configuration BlinkAppC
+{
+}
+implementation
+{
+components MainC, BlinkC, Leds;
+components new TimerMilliC() as Timer0;
+
+BlinkC->MainC.Boot;
+
+BlinkC.Timer0->Timer0;
+BlinkC.Leds->LedsC;
+}
+|
+
+---------------------------------
+BlinkC.nc
+
+---------------------------------
+#include "Timer.h"
+
+module BlinkC @safe()
+{
+uses interface Timer<TMilli> as Timer0;
+uses interface Leds;
+uses interface Boot;
+}
+implementation
+{
+event void Boot.booted()
+{
+call Timer0.startPeriodic(250);
+}
+event void Timer0.fired()
+{
+call Leds.led0Toggle();
+}
+}
+
+-------------------------------------
+vim Makefile
+
+----------------------------------------
+
+COMPONENT=BlinkAppC
+includes$(MAKERULES)

@@ -1,4 +1,4 @@
-##InFluxDB 설치
+## InFluxDB 설치
 
   -InflixDb download key using wget
 ```

@@ -16,7 +16,7 @@ sudo service influxdb start
 ```
   -InfluxDB is status(service)
 ```
-sudo service influxdb status
+sudo service influxdb status//상태 확인
 ```
 
   -InfluxDb 데이터베이스 만들기
@@ -25,6 +25,10 @@ sudo service influxdb status
 >create database <데이터베이스이름>
 확인 : show databases
 ```
+
+  -influxdb import with python
+``` pip install influxdb
+
 ## Grafana Installation
   -1.install the prerequisite packages
 ```

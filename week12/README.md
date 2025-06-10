@@ -61,3 +61,37 @@ sudo apt-get update && sudo apt-get install grafana -y
 ```
 sudo systemctl start grafana-server
 ```
+
+### vim dustInfluxdb.py
+```
+import time
+import requests, json
+import influxdb import InfluxDBClient as influxdb
+import serial
+
+seri = serial.Serial('/dev/ttyACM0', baudrate = 9600, timeout = None)
+
+while(True):
+  time.sleep(1)
+  if seri.in_waiting != 0:
+    content = seri.readline()
+    a = float(content.decode())
+    data = [{
+      'measurement' : 'dust',
+      'tags':{
+          'InhaUni' : '2222',
+      },
+      'fields':{
+          'dust' : a,
+      }
+  }]
+client = None
+try:
+  client = influxdb('localhost', 8086, 'root', 'root', 'dust')
+except Exception as e:
+  print("Exception write " + str(e))
+finally:
+  client.close()
+print(a)
+print("running influxdb OK")
+```
